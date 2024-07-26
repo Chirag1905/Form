@@ -1,0 +1,7 @@
+{
+    "editor.fontWeight":"bold",
+    "editor.fontFamily": "'Cascadia Code', Cascadia Code",
+    "editor.fontLigatures": true,
+    "editor.fontVariations": true,
+    "terminal.integrated.fontWeight": "bold"
+}
