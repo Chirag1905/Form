@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import Select from 'react-select'
+import ReactSelect from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 
 const NextForm = () => {
@@ -42,7 +42,6 @@ const NextForm = () => {
     Message: useRef(null),
     Agree: useRef(null),
     Birthdate: useRef(null),
-    submitButton: useRef(null),
   };
 
   const validateField = (name, value) => {
@@ -167,63 +166,141 @@ const NextForm = () => {
     validateField(name, value);
   };
 
+  const handleCheckChange = (e) => {
+    const { name, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: checked,
+    }));
+    validateField(name, checked);
+  };
+
   const handleSelectChange = (selectedOption) => {
     setFormData((prevData) => ({
       ...prevData,
-      Gender: selectedOption
+      Gender: selectedOption,
     }));
     validateField("Gender", selectedOption);
   };
 
   const options = [
-    { value: 'Male', label: 'Male' },
-    { value: 'Female', label: 'Female' },
-    { value: 'Others', label: 'Others' }
-  ]
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" },
+    { value: "Others", label: "Others" },
+  ];
 
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: "#374151",
+      borderColor: state.isFocused ? "white" : "#374151",
+      boxShadow: "none",
+      borderRadius: "0.375rem", // Same as rounded-lg
+      "&:hover": {
+        borderColor: "white",
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: "#374151",
+      borderRadius: "0.375rem", // Same as rounded-lg
+      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? "lightblue" : "#374151",
+      color: state.isSelected ? "black" : "white",
+      cursor: "pointer",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "white",
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "white",
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: "white",
+    }),
+    clearIndicator: (provided) => ({
+      ...provided,
+      color: "white",
+    }),
+  };
   return (
     <>
       <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
         <div className="w-full max-w-lg bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <form className="flex flex-col" onSubmit={submit}>
-            <h1 className='text-gray-900 dark:text-white text-3xl mb-6'>Advance Form</h1>
+            <h1 className="text-gray-900 dark:text-white text-3xl mb-6">
+              Advance Form
+            </h1>
             <div className="grid gap-6 mb-6 md:grid-cols-2">
               <div>
-                <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+                <label
+                  for="first_name"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  First name
+                </label>
                 <input
                   type="text"
-                  name='FirstName'
+                  name="FirstName"
                   className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-                    ${errors.FirstName ? "border-red-500" : "focus:border-blue-500"}`}
-                  placeholder='Enter Your FirstName'
+                    ${
+                      errors.FirstName
+                        ? "border-red-500"
+                        : "focus:border-blue-500"
+                    }`}
+                  placeholder="Enter Your FirstName"
                   ref={Refs.FirstName}
                   value={formData.FirstName}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                {errors.FirstName && <p className='text-red-500'>{errors.FirstName}</p>}
+                {errors.FirstName && (
+                  <p className="text-red-500">{errors.FirstName}</p>
+                )}
               </div>
               <div>
-                <label for="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+                <label
+                  for="last_name"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Last name
+                </label>
                 <input
                   type="text"
-                  name='LastName'
+                  name="LastName"
                   className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
-                    ${errors.FirstName ? "border-red-500" : "focus:border-blue-500"}`}
-                  placeholder='Enter Your LastName'
+                    ${
+                      errors.FirstName
+                        ? "border-red-500"
+                        : "focus:border-blue-500"
+                    }`}
+                  placeholder="Enter Your LastName"
                   ref={Refs.LastName}
                   value={formData.LastName}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                {errors.LastName && <p className='text-red-500'>{errors.LastName}</p>}
+                {errors.LastName && (
+                  <p className="text-red-500">{errors.LastName}</p>
+                )}
               </div>
               <div>
-                <label for="age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
+                <label
+                  for="age"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Age
+                </label>
                 <input
-                  type='number'
-                  name='Age'
-                  placeholder='Enter Your Age'
+                  type="number"
+                  name="Age"
+                  placeholder="Enter Your Age"
                   ref={Refs.Age}
                   value={formData.Age}
                   onChange={handleChange}
@@ -231,60 +308,92 @@ const NextForm = () => {
                   className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
                     ${errors.Age ? "border-red-500" : "focus:border-blue-500"}`}
                 />
-                {errors.Age && <p className='text-red-500'>{errors.Age}</p>}
+                {errors.Age && <p className="text-red-500">{errors.Age}</p>}
               </div>
               <div>
-                <label for="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
+                <label
+                  for="phone"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Phone number
+                </label>
                 <input
-                  type='tel'
-                  name='Phone'
-                  placeholder='Enter Your Number'
+                  type="tel"
+                  name="Phone"
+                  placeholder="Enter Your Number"
                   ref={Refs.Phone}
                   value={formData.Phone}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
-                    ${errors.Phone ? "border-red-500" : "focus:border-blue-500"}`}
+                    ${
+                      errors.Phone ? "border-red-500" : "focus:border-blue-500"
+                    }`}
                 />
-                {errors.Phone && <p className='text-red-500'>{errors.Phone}</p>}
+                {errors.Phone && <p className="text-red-500">{errors.Phone}</p>}
               </div>
               <div>
-                <label for="birthdate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
+                <label
+                  for="birthdate"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Birth Date
+                </label>
                 <input
-                  type='date'
-                  name='Birthdate'
-                  placeholder='Enter Your Birthdate'
+                  type="date"
+                  name="Birthdate"
+                  placeholder="Enter Your Birthdate"
                   ref={Refs.Birthdate}
                   value={formData.Birthdate}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
-                    ${errors.Birthdate ? "border-red-500" : "focus:border-blue-500"}`}
+                    ${
+                      errors.Birthdate
+                        ? "border-red-500"
+                        : "focus:border-blue-500"
+                    }`}
                 />
-                {errors.Birthdate && <p className='text-red-500'>{errors.Birthdate}</p>}
+                {errors.Birthdate && (
+                  <p className="text-red-500">{errors.Birthdate}</p>
+                )}
               </div>
               <div>
-                <label for="gender" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                <Select
-                  name='Gender'
+                <label
+                  for="gender"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Gender
+                </label>
+                <ReactSelect
+                  name="Gender"
                   options={options}
                   ref={Refs.Gender}
                   value={formData.Gender}
                   onChange={handleSelectChange}
-                  onBlur={() => validateField('Gender', formData.Gender)}
-                  // className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
-                  // ${errors.Gender ? "border-red-500" : "focus:border-blue-500"}`}
-                  styles={errors.Gender ? { control: (base) => ({ ...base, border: '1px solid red', borderRadius: '5px' }) } : {}}
+                  onBlur={() => validateField("Gender", formData.Gender)}
+                  styles={customStyles}
+                  className={`bg-transparent border border-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
+                ${errors.Gender ? "border-red-500" : "focus:border-blue-500"}`}
+                  // className="bg-yellow-400 fill-gray-900"
+                  // styles={errors.Gender ? { control: (base) => ({ ...base, border: '1px solid red', borderRadius: '5px' }) } : {}}
                 />
-                {errors.Gender && <p className='text-red-500'>{errors.Gender}</p>}
+                {errors.Gender && (
+                  <p className="text-red-500">{errors.Gender}</p>
+                )}
               </div>
             </div>
             <div className="mb-6">
-              <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
+              <label
+                for="email"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Email address
+              </label>
               <input
-                type='email'
-                name='Email'
-                placeholder='Enter Your Email'
+                type="email"
+                name="Email"
+                placeholder="Enter Your Email"
                 ref={Refs.Email}
                 value={formData.Email}
                 onChange={handleChange}
@@ -292,54 +401,90 @@ const NextForm = () => {
                 className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
                 ${errors.Email ? "border-red-500" : "focus:border-blue-500"}`}
               />
-              {errors.Email && <p className='text-red-500'>{errors.Email}</p>}
+              {errors.Email && <p className="text-red-500">{errors.Email}</p>}
             </div>
             <div className="mb-6">
-              <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+              <label
+                for="password"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Password
+              </label>
               <input
-                type='password'
-                name='Password'
-                placeholder='•••••••••'
+                type="password"
+                name="Password"
+                placeholder="•••••••••"
                 ref={Refs.Password}
                 value={formData.Password}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
-                  ${errors.Password ? "border-red-500" : "focus:border-blue-500"}`}
+                  ${
+                    errors.Password ? "border-red-500" : "focus:border-blue-500"
+                  }`}
               />
-              {errors.Password && <p className='text-red-500'>{errors.Password}</p>}
+              {errors.Password && (
+                <p className="text-red-500">{errors.Password}</p>
+              )}
             </div>
             <div className="mb-6">
-              <label for="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+              <label
+                for="address"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Address
+              </label>
               <textarea
-                name='Message'
-                placeholder='Enter Your Message'
+                name="Message"
+                placeholder="Enter Your Message"
                 ref={Refs.Message}
                 value={formData.Message}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
-                  ${errors.Message ? "border-red-500" : "focus:border-blue-500"}`}
+                  ${
+                    errors.Message ? "border-red-500" : "focus:border-blue-500"
+                  }`}
               />
-              {errors.Message && <p className='text-red-500'>{errors.Message}</p>}
+              {errors.Message && (
+                <p className="text-red-500">{errors.Message}</p>
+              )}
             </div>
             <div className="flex items-start mb-6">
               <div className="flex items-center h-5">
                 <input
-                  type='checkbox'
-                  name='Agree'
+                  type="checkbox"
+                  name="Agree"
                   ref={Refs.Agree}
                   checked={formData.Agree}
-                  onChange={handleChange}
+                  onChange={handleCheckChange}
                   onBlur={handleBlur}
-                  className={`w-full px-3 py-2 border rounded-md focus:outline-none ${errors.Agree ? "border-red-500" : "focus:border-blue-500"
-                    }`}
+                  className={`w-full px-3 py-2 border rounded-md focus:outline-none ${
+                    errors.Agree ? "border-red-500" : "focus:border-blue-500"
+                  }`}
                 />
-                {errors.Agree && <p className='text-red-500'>{errors.Agree}</p>}
+                {errors.Agree && <p className="text-red-500">{errors.Agree}</p>}
               </div>
-              <label for="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" className="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
+              <label
+                for="remember"
+                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                I agree with the{" "}
+                <a
+                  href="#"
+                  className="text-blue-600 hover:underline dark:text-blue-500"
+                >
+                  terms and conditions
+                </a>
+                .
+              </label>
             </div>
-            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            <button
+              type="submit"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>
